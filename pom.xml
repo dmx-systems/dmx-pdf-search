@@ -13,10 +13,31 @@
     <parent>
         <groupId>systems.dmx</groupId>
         <artifactId>dmx-plugin</artifactId>
-        <version>5.3.3</version>
+        <version>5.3.4-SNAPSHOT</version>
     </parent>
 
     <dependencies>
+        <dependency>
+            <groupId>systems.dmx</groupId>
+            <artifactId>dmx-files</artifactId>
+            <version>5.3.4-SNAPSHOT</version>
+        </dependency>
+        <!-- PDFBox -->
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox-io</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.2</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -27,8 +48,11 @@
                 <configuration>
                     <instructions>
                         <Bundle-Activator>systems.dmx.pdfsearch.PDFSearchPlugin</Bundle-Activator>
-                        <!--Embed-Dependency>commons-fileupload</Embed-Dependency>
-                        <Import-Package>!javax.portlet, *</Import-Package-->
+                        <Embed-Dependency>pdfbox, pdfbox-io, commons-logging</Embed-Dependency>
+                        <Import-Package>
+                            !org.apache.pdfbox.io, !org.apache.fontbox.*, !org.apache.log, !org.apache.log4j,
+                            !org.apache.avalon.framework.logger, !org.bouncycastle.*, *
+                        </Import-Package>
                     </instructions>
                 </configuration>
             </plugin>
