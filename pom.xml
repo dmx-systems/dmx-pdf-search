@@ -34,6 +34,11 @@
             <version>3.0.0</version>
         </dependency>
         <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>fontbox</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+        <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
             <version>1.2</version>
@@ -48,10 +53,10 @@
                 <configuration>
                     <instructions>
                         <Bundle-Activator>systems.dmx.pdfsearch.PDFSearchPlugin</Bundle-Activator>
-                        <Embed-Dependency>pdfbox, pdfbox-io, commons-logging</Embed-Dependency>
+                        <Embed-Dependency>pdfbox, pdfbox-io, fontbox, commons-logging</Embed-Dependency>
                         <Import-Package>
-                            !org.apache.pdfbox.io, !org.apache.fontbox.*, !org.apache.log, !org.apache.log4j,
-                            !org.apache.avalon.framework.logger, !org.bouncycastle.*, *
+                            !org.apache.log, !org.apache.log4j, !org.apache.avalon.framework.logger,
+                            !org.bouncycastle.*, *
                         </Import-Package>
                     </instructions>
                 </configuration>

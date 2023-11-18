@@ -10,6 +10,7 @@ import systems.dmx.files.FilesService;
 
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 
 import java.io.File;
 import java.util.logging.Logger;
@@ -50,6 +51,8 @@ public class PDFSearchPlugin extends PluginActivator implements PostCreateTopic 
     private void indexPDF(File file) {
         try {
             PDDocument pdfDocument = Loader.loadPDF(file);
+            String text = new PDFTextStripper().getText(pdfDocument);
+            logger.info(text);
             // TODO
         } catch (Exception e) {
             throw new RuntimeException("Indexing PDF failed, file=\"" + file + "\"");
