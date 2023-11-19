@@ -1,4 +1,4 @@
-# 1) Initiates build for every "master" or "tags" push
+# 1) Initiates build for every "main" or "tags" push
 maven-build:
   stage: build
   script:
@@ -11,7 +11,7 @@ maven-build:
     paths:
       - node_modules/
   only:
-    - master
+    - main
     - tags
 
 # 2) Copies build to both, download/ci/ and dmx-dev-container
@@ -31,7 +31,7 @@ copy-to-ci:
   dependencies:
     - maven-build
   only:
-    - master
+    - main
 
 # 3) Copies tagged (release) builds to download/plugins/
 copy-to-release:
