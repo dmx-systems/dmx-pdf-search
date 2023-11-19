@@ -55,7 +55,7 @@ public class PDFSearchPlugin extends PluginActivator implements PostCreateTopic 
             logger.info(text);
             dmx.indexTopicFulltext(topicId, text, FILE);
         } catch (Exception e) {
-            throw new RuntimeException("Indexing PDF failed, file=\"" + file + "\", topicId=" + topicId);
+            throw new RuntimeException("Indexing PDF failed, file=\"" + file + "\", File topicId=" + topicId);
         }
     }
 }
