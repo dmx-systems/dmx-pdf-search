@@ -41,21 +41,21 @@ public class PDFSearchPlugin extends PluginActivator implements PostCreateTopic 
                 String path = ct.getTopic(PATH).getSimpleValue().toString();
                 logger.info("### Indexing PDF file \"" + path + "\"");
                 File file = files.getFile(path);
-                indexPDF(file);
+                indexPDF(file, topic.getId());
             }
         }
     }
 
     // ------------------------------------------------------------------------------------------------- Private Methods
 
-    private void indexPDF(File file) {
+    private void indexPDF(File file, long topicId) {
         try {
             PDDocument pdfDocument = Loader.loadPDF(file);
             String text = new PDFTextStripper().getText(pdfDocument);
             logger.info(text);
-            // TODO
+            dmx.indexTopicFulltext(topicId, text, FILE);
         } catch (Exception e) {
-            throw new RuntimeException("Indexing PDF failed, file=\"" + file + "\"");
+            throw new RuntimeException("Indexing PDF failed, file=\"" + file + "\", topicId=" + topicId);
         }
     }
 }
