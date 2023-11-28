@@ -7,12 +7,14 @@ import systems.dmx.core.service.Inject;
 import systems.dmx.core.service.event.PostCreateTopic;
 import static systems.dmx.files.Constants.*;
 import systems.dmx.files.FilesService;
+import systems.dmx.tesseract.TesseractService;
 
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 
@@ -23,8 +25,8 @@ public class PDFSearchPlugin extends PluginActivator implements PostCreateTopic 
 
     // ---------------------------------------------------------------------------------------------- Instance Variables
 
-    @Inject
-    private FilesService files;
+    @Inject private FilesService files;
+    @Inject private TesseractService tesseract;
 
     private Logger logger = Logger.getLogger(getClass().getName());
 
@@ -40,22 +42,34 @@ public class PDFSearchPlugin extends PluginActivator implements PostCreateTopic 
             if (mediaType.equals("application/pdf")) {
                 String path = ct.getTopic(PATH).getSimpleValue().toString();
                 logger.info("### Indexing PDF file \"" + path + "\"");
-                File file = files.getFile(path);
-                indexPDF(file, topic.getId());
+                indexPDF(path, topic.getId());
             }
         }
     }
 
     // ------------------------------------------------------------------------------------------------- Private Methods
 
-    private void indexPDF(File file, long topicId) {
+    private void indexPDF(String path, long topicId) {
         try {
+            File file = files.getFile(path);
+            // 1) Text extraction
             PDDocument pdfDocument = Loader.loadPDF(file);
             String text = new PDFTextStripper().getText(pdfDocument);
-            logger.info(text);
+            logger.info("\"" + text + "\"\n" + text.length() + " characters extracted" +
+                (text.length() < 100 ? "\n" + Arrays.toString(text.getBytes()) : ""));
+            if (isTextAvailable(text)) {
+                dmx.indexTopicFulltext(topicId, text, FILE);
+                return;
+            }
+            // 2) OCR
+            text = tesseract.doOCR(path);
             dmx.indexTopicFulltext(topicId, text, FILE);
         } catch (Exception e) {
-            throw new RuntimeException("Indexing PDF failed, file=\"" + file + "\", File topicId=" + topicId);
+            throw new RuntimeException("Indexing PDF failed, path=\"" + path + "\", File topicId=" + topicId);
         }
+    }
+
+    private boolean isTextAvailable(String text) {
+        return text.chars().anyMatch(i -> i != 10);    // LF
     }
 }
