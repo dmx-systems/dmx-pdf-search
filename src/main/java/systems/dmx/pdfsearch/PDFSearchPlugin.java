@@ -65,7 +65,7 @@ public class PDFSearchPlugin extends PluginActivator implements PostCreateTopic 
             text = tesseract.doOCR(path);
             dmx.indexTopicFulltext(topicId, text, FILE);
         } catch (Exception e) {
-            throw new RuntimeException("Indexing PDF failed, path=\"" + path + "\", File topicId=" + topicId);
+            throw new RuntimeException("Indexing PDF failed, path=\"" + path + "\", File topicId=" + topicId, e);
         }
     }
 
