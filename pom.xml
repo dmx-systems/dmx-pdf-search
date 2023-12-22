@@ -16,6 +16,43 @@
         <version>5.3.4-SNAPSHOT</version>
     </parent>
 
+    <profiles>
+        <profile>
+            <!-- Activate this profile to use the docker deployment included in the project -->
+            <id>docker</id>
+            <activation>
+                <property>
+                    <name>env.DMX_DEPLOYMENT</name>
+                    <value>docker</value>
+                </property>
+            </activation>
+            <properties>
+                <dmx.deploy.dir>./deploy/instance/dev/bundle-deploy</dmx.deploy.dir>
+            </properties>
+        </profile>
+        <profile>
+            <id>gitlab-maven-deployment</id>
+            <repositories>
+                <repository>
+                    <id>gitlab-maven</id>
+                    <url>${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/maven</url>
+                </repository>
+            </repositories>
+            <distributionManagement>
+                <repository>
+                    <id>gitlab-maven</id>
+                    <url>${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/maven</url>
+                </repository>
+                <snapshotRepository>
+                    <id>gitlab-maven</id>
+                    <url>${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/maven</url>
+                </snapshotRepository>
+            </distributionManagement>
+        </profile>
+    </profiles>
+
+
+
     <dependencies>
         <dependency>
             <groupId>systems.dmx</groupId>
