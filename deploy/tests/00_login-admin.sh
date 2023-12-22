@@ -1,9 +1,17 @@
 #!/bin/bash
 
+## This script uses curl to login as user admin and
+## to export the SESSIONID for subsequent scripts.
+##
+## jpn 20231222
+
+## always sleep at least for 1s
 sleep 1
 
+## requires vars should be pre-set via environment
 USERNAME='admin'
 PASSWORD="${DMX_ADMIN_PASSWORD}"
+## if env is empty, set default
 if [ -z "${TIER}" ]; then
     export TIER='dev'
 fi
@@ -12,7 +20,8 @@ if [ -z "${WEB_URL}" ] && [ "${CI_COMMIT_BRANCH}" == "master" -o "${CI_COMMIT_BR
 elif [ -z "${WEB_URL}" ] && [ "${CI_COMMIT_BRANCH}" != "master" -a "${CI_COMMIT_BRANCH}" == "main" ]; then
     WEB_URL="${CI_COMMIT_REF_SLUG}_${CI_PROJECT_NAME}-${TIER}.ci.dmx.systems"
 fi
-HOST="https://${WEB_URL}:443"
+## export HOST for subsequent scripts
+export HOST="https://${WEB_URL}:443"
 ## Test access to Administration workspace to ensure login as admin was successful.
 URL='core/topic/uri/dmx.workspaces.administration'
 BASE64="$( echo -n "${USERNAME}:${PASSWORD}" | base64 )"
