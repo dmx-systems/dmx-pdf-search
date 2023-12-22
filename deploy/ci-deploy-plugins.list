@@ -1,4 +1,2 @@
-dmx-ldap
-dmx-sendmail
-dmx-sign-up
-dmx-thymeleaf
+dmx-file-upload
+dmx-tesseract
