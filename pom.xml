@@ -7,7 +7,7 @@
     <name>DMX PDF Search</name>
     <groupId>systems.dmx</groupId>
     <artifactId>dmx-pdf-search</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSPHOT</version>
     <packaging>bundle</packaging>
 
     <parent>
@@ -50,8 +50,6 @@
             </distributionManagement>
         </profile>
     </profiles>
-
-
 
     <dependencies>
         <dependency>
