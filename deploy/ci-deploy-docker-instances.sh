@@ -22,7 +22,7 @@ fi
 
 if [ -z "${LDAP_ADMIN_PASSWORD}" ]; then
     export LDAP_ADMIN_PASSWORD="$( mkpw )$( mkpw )"
-    echo "LDAP_ADMIN_PASSWORD=${LDAP_ADMIN_PASSWORD}"
+    # echo "LDAP_ADMIN_PASSWORD=${LDAP_ADMIN_PASSWORD}"
 fi
 if [ -z "${DMX_DIRS}" ]; then
     declare -a DMX_DIRS=(conf logs db filedir bundle-deploy bundle-available)
