@@ -16,6 +16,9 @@ maven-build:
     paths:
       - target
     name: ${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA}
+  cache:
+    paths:
+      - node_modules/
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
     - if: $CI_COMMIT_BRANCH == 'main'
