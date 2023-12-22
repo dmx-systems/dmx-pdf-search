@@ -16,4 +16,4 @@ URL="upload/%2Fworkspace-${WSID}"
 echo "POST ${HOST}/${URL}"
 ## mind "Accept" header!
 #curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -H "Accept: application/json" -d "data=@${PDF}" "${HOST}/${URL}"
-curl -v -H "Cookie: JSESSIONID=${SESSIONID}" -H "Content-Type: multipart/form-data" -d "@${PDF}" "${HOST}/${URL}"
+curl -v -H "Cookie: JSESSIONID=${SESSIONID}" -F "file=@${PDF}" "${HOST}/${URL}"
