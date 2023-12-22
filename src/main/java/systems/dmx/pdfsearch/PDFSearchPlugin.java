@@ -55,8 +55,9 @@ public class PDFSearchPlugin extends PluginActivator implements PostCreateTopic 
             // 1) Text extraction
             PDDocument pdfDocument = Loader.loadPDF(file);
             String text = new PDFTextStripper().getText(pdfDocument);
-            logger.info("\"" + text + "\"\n" + text.length() + " characters extracted" +
-                (text.length() < 100 ? "\n" + Arrays.toString(text.getBytes()) : ""));
+            logger.fine("\"" + text + "\"");
+            logger.info(text.length() + " characters extracted" + (text.length() < 100 ? "\n" +
+                Arrays.toString(text.getBytes()) : ""));
             if (isTextAvailable(text)) {
                 dmx.indexTopicFulltext(topicId, text, FILE);
                 return;
@@ -70,6 +71,6 @@ public class PDFSearchPlugin extends PluginActivator implements PostCreateTopic 
     }
 
     private boolean isTextAvailable(String text) {
-        return text.chars().anyMatch(i -> i != 10);    // LF
+        return text.chars().anyMatch(c -> c != 10);    // LF
     }
 }
