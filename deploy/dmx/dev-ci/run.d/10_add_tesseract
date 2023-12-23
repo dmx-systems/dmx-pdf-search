@@ -2,3 +2,4 @@ apk update
 apk add tesseract-ocr
 apk add tesseract-ocr-data-deu
 apk add tesseract-ocr-data-fra
+export OMP_THREAD_LIMIT=1
