@@ -26,4 +26,5 @@ else
     echo "great! \o/ "
 fi
 ## search index
-curl -sS -H "Cookie: JSESSIONID=dshc07xw2x2wrwj4j9gzhw1f" "https://dmx-pdf-search-dev.ci.dmx.systems:443//core/topics/query/facsimile" | jq .items
+TOPICS="$( curl -sS -H "Cookie: JSESSIONID=dshc07xw2x2wrwj4j9gzhw1f" "https://dmx-pdf-search-dev.ci.dmx.systems:443//core/topics/query/facsimile" | jq .topics )"
+echo "TOPICS=${TOPICS}"
