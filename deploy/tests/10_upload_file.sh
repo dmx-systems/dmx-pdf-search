@@ -37,10 +37,10 @@ sleep 3
 count=0
 HITS=""
 while [ -z "${HITS}" ] && [ ${count} -lt 100 ]; do
-    SEARCH_RESULT="$( curl -sS -H "Cookie: JSESSIONID=dshc07xw2x2wrwj4j9gzhw1f" "https://dmx-pdf-search-dev.ci.dmx.systems:443//core/topics/query/facsimile" )"
+    SEARCH_RESULT="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" "https://dmx-pdf-search-dev.ci.dmx.systems:443//core/topics/query/facsimile" )"
     echo "SEARCH_RESULT=${SEARCH_RESULT}"
     HITS="$( echo "${SEARCH_RESULT}" | jq .topics[] )"
-    echo "${count} \t HITS=${HITS}"
+    echo -e "${count} \t HITS=${HITS}"
     count=$(( ${count} + 1 ))
     sleep 2
 done
