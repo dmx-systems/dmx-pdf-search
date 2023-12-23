@@ -26,7 +26,6 @@ export HOST="https://${WEB_URL}:443"
 URL='core/topic/uri/dmx.workspaces.administration'
 BASE64="$( echo -n "${USERNAME}:${PASSWORD}" | base64 )"
 AUTH="Authorization: Basic ${BASE64}"
-#echo "curl -sS -H "${AUTH}" "${HOST}/${URL}" -i 2>&1"
 SESSION="$( curl -sS -H "${AUTH}" "${HOST}/${URL}" -i 2>&1 )"
 HTTPCODE="$( echo "${SESSION}" | grep HTTP | cut -d' ' -f2 )"
 if [ "${HTTPCODE}" != "200" -a "${HTTPCODE}" != "204" ]; then
