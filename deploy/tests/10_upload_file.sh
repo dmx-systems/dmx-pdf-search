@@ -17,8 +17,11 @@ fi
 PDF='deploy/tests/scansmpl.pdf'
 URL="upload/%2Fworkspace-${WSID}"
 #echo "POST ${HOST}/${URL}"
-UPLOADED_FILENAME="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -F "data=@${PDF}" "${HOST}/${URL}" | jq .fileName )"
-echo "UPLOADED_FILENAME=${UPLOADED_FILENAME}"
+UPLOADED="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -F "data=@${PDF}" "${HOST}/${URL}" | jq . )"
+U_NAME="$( echo "${UPLOADED}" | jq .fileName )"
+U_ID="$( echo "${UPLOADED}" | jq .id )"
+
+echo "UPLOADED_FILENAME=${U_NAME}"
 ## The double quotes are important for '"scansmpl.pdf"'
 if [ "${UPLOADED_FILENAME}" != '"scansmpl.pdf"' ]; then
     echo "weird! /o\ "
@@ -26,5 +29,6 @@ else
     echo "great! \o/ "
 fi
 ## search index
-TOPICS="$( curl -sS -H "Cookie: JSESSIONID=dshc07xw2x2wrwj4j9gzhw1f" "https://dmx-pdf-search-dev.ci.dmx.systems:443//core/topics/query/facsimile" | jq .topics )"
-echo "TOPICS=${TOPICS}"
+TOPIC_ID="$( curl -sS -H "Cookie: JSESSIONID=dshc07xw2x2wrwj4j9gzhw1f" "https://dmx-pdf-search-dev.ci.dmx.systems:443//core/topics/query/facsimile" \
+    | jq -c '.topics[] | select((.value | contains("scansmpl.pdf")) and (.typeUri == "dmx.files.file"))'.id )"
+echo "ID=${TOPIC_ID}"
