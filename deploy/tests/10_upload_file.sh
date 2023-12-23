@@ -34,7 +34,14 @@ fi
 ## search index
 ## DMX and tesseract have a need for sleep here to process the OCR
 sleep 3
-SEARCH_RESULT="$( curl -sS -H "Cookie: JSESSIONID=dshc07xw2x2wrwj4j9gzhw1f" "https://dmx-pdf-search-dev.ci.dmx.systems:443//core/topics/query/facsimile" )"
-echo "SEARCH_RESULT=${SEARCH_RESULT}"
+count=0
+HITS=""
+while [ -z "${HITS}" ] and [ ${count} -lt 10 ]; do
+    SEARCH_RESULT="$( curl -sS -H "Cookie: JSESSIONID=dshc07xw2x2wrwj4j9gzhw1f" "https://dmx-pdf-search-dev.ci.dmx.systems:443//core/topics/query/facsimile" )"
+    echo "SEARCH_RESULT=${SEARCH_RESULT}"
+    HITS="$( echo "${SEARCH_RESULT}" | jq .topics[] )"
+    sleep 1
+    count=$(( ${count} + 1 ))
+done
 ID="$( echo "${SEARCH_RESULT}" | jq '.topics[] | select((.value | contains("scansmpl.pdf")) and (.typeUri == "dmx.files.file"))'.id)"
 echo "ID=${ID}"
