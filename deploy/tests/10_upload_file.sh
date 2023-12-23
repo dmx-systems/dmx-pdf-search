@@ -18,7 +18,7 @@ PDF='deploy/tests/scansmpl.pdf'
 URL="upload/%2Fworkspace-${WSID}"
 #echo "POST ${HOST}/${URL}"
 UPLOADED="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -F "data=@${PDF}" "${HOST}/${URL}" | jq . )"
-echo "UPLOADED=${UPLOADED}"
+#echo "UPLOADED=${UPLOADED}"
 U_NAME="$( echo "${UPLOADED}" | jq .fileName )"
 U_ID="$( echo "${UPLOADED}" | jq .topicId )"
 
@@ -40,6 +40,7 @@ while [ -z "${HITS}" ] and [ ${count} -lt 10 ]; do
     SEARCH_RESULT="$( curl -sS -H "Cookie: JSESSIONID=dshc07xw2x2wrwj4j9gzhw1f" "https://dmx-pdf-search-dev.ci.dmx.systems:443//core/topics/query/facsimile" )"
     echo "SEARCH_RESULT=${SEARCH_RESULT}"
     HITS="$( echo "${SEARCH_RESULT}" | jq .topics[] )"
+    echo "HITS=${HITS}"
     sleep 1
     count=$(( ${count} + 1 ))
 done
