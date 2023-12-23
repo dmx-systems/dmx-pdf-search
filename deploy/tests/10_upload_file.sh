@@ -31,18 +31,17 @@ if [ "${U_NAME}" != '"scansmpl.pdf"' ]; then
 else
     echo "INFO: PDF upload succesful. (id=${U_ID})"
 fi
-## search index
-## DMX and tesseract have a need for sleep here to process the OCR
-sleep 1
+
+## search index for text snipped from OCR ('facsimile')
 count=0
 HITS=""
 while [ -z "${HITS}" ] && [ ${count} -lt 100 ]; do
+    sleep 1
     SEARCH_RESULT="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" "https://dmx-pdf-search-dev.ci.dmx.systems:443//core/topics/query/facsimile" )"
     #echo "SEARCH_RESULT=${SEARCH_RESULT}"
     HITS="$( echo "${SEARCH_RESULT}" | jq -c .topics[] )"
-    echo -e "${count} \t HITS=${HITS}"
+    #echo -e "${count} \t HITS=${HITS}"
     count=$(( ${count} + 1 ))
-    sleep 1
 done
 ID="$( echo "${SEARCH_RESULT}" | jq '.topics[] | select((.value | contains("scansmpl.pdf")) and (.typeUri == "dmx.files.file"))'.id)"
 echo "ID=${ID}"
