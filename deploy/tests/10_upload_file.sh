@@ -17,9 +17,10 @@ fi
 PDF='deploy/tests/scansmpl.pdf'
 URL="upload/%2Fworkspace-${WSID}"
 #echo "POST ${HOST}/${URL}"
-UPLOADED="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -F "data=@${PDF}" "${HOST}/${URL}" | jq . )"
-U_NAME="$( echo "${UPLOADED}" | jq .fileName )"
-U_ID="$( echo "${UPLOADED}" | jq .id )"
+UPLOADED="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -F "data=@${PDF}" "${HOST}/${URL}" | jq -c . )"
+echo "UPLOADED=${UPLOADED}"
+U_NAME="$( echo "${UPLOADED}" | jq -c .fileName )"
+U_ID="$( echo "${UPLOADED}" | jq -c .id )"
 
 echo "UPLOADED_FILENAME=${U_NAME}"
 ## The double quotes are important for '"scansmpl.pdf"'
