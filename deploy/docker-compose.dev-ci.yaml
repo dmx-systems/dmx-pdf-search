@@ -12,6 +12,8 @@ services:
       GROUP_ID: "${group_id}"
       DMX_ADMIN_PASSWORD: "${DMX_ADMIN_PASSWORD}"
       LDAP_ADMIN_PASSWORD: "${LDAP_ADMIN_PASSWORD}"
+      java_xms: '2048m'
+      java_xmx: '1024m'
     volumes:
       - ./instance/dev-ci/conf:/opt/dmx/conf
       - ./instance/dev-ci/logs:/opt/dmx/logs
