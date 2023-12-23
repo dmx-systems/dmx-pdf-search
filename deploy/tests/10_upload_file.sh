@@ -17,5 +17,10 @@ fi
 PDF='deploy/tests/scansmpl.pdf'
 URL="upload/%2Fworkspace-${WSID}"
 #echo "POST ${HOST}/${URL}"
-UPLOADED_FILENAME="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -F "data=@${PDF}" "${HOST}/${URL}" )"
+UPLOADED_FILENAME="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -F "data=@${PDF}" "${HOST}/${URL}" | jq .fileName )"
 echo "UPLOADED_FILENAME=${UPLOADED_FILENAME}"
+if [ "${UPLOADED_FILENAME}" != "scansmpl.pdf" ]; then
+    echo "weird! /o\ "
+else
+    echo "great! \o/ "
+fi
