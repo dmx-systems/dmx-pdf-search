@@ -5,8 +5,8 @@
 ##
 ## jpn 20231222
 
-## always sleep at least for 1s
-sleep 2
+## always sleep at least for 3s
+sleep 3
 
 ## requires vars should be pre-set via environment
 USERNAME='admin'
