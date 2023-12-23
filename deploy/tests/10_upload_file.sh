@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sleep 1
+
 echo "SESSIONID=${SESSIONID}"
 echo "HOST=${HOST}"
 
@@ -16,5 +18,5 @@ URL="upload/%2Fworkspace-${WSID}"
 echo "POST ${HOST}/${URL}"
 ## mind "Accept" header!
 #curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -H "Accept: application/json" -d "data=@${PDF}" "${HOST}/${URL}"
-sleep 10
+sleep 1
 curl -v -H "Cookie: JSESSIONID=${SESSIONID}" -F "data=@${PDF}" "${HOST}/${URL}"
