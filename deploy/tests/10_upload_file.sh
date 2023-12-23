@@ -36,13 +36,13 @@ fi
 sleep 3
 count=0
 HITS=""
-while [ -z "${HITS}" ] && [ ${count} -lt 10 ]; do
+while [ -z "${HITS}" ] && [ ${count} -lt 20 ]; do
     SEARCH_RESULT="$( curl -sS -H "Cookie: JSESSIONID=dshc07xw2x2wrwj4j9gzhw1f" "https://dmx-pdf-search-dev.ci.dmx.systems:443//core/topics/query/facsimile" )"
     echo "SEARCH_RESULT=${SEARCH_RESULT}"
     HITS="$( echo "${SEARCH_RESULT}" | jq .topics[] )"
     echo "HITS=${HITS}"
-    sleep 1
     count=$(( ${count} + 1 ))
+    sleep 2
 done
 ID="$( echo "${SEARCH_RESULT}" | jq '.topics[] | select((.value | contains("scansmpl.pdf")) and (.typeUri == "dmx.files.file"))'.id)"
 echo "ID=${ID}"
