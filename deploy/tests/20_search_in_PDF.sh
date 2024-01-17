@@ -27,7 +27,8 @@ while [ -z "${HITS}" ] && [ ${count} -lt 100 ]; do
     HITS="$( echo "${SEARCH_RESULT}" | jq -c .topics[] )"
     count=$(( ${count} + 1 ))
 done
-ID="$( echo "${SEARCH_RESULT}" | jq '.topics[] | select((.value | contains("${PDF}")) and (.typeUri == "dmx.files.file"))'.id)"
+## NOTE: do not replace the filename with ${PDF}
+ID="$( echo "${SEARCH_RESULT}" | jq '.topics[] | select((.value | contains("scansmpl.pfd")) and (.typeUri == "dmx.files.file"))'.id)"
 if [ "${ID}" != "${U_ID}" ]; then
     echo "ERROR! Search term '${SEARCHTERM}' not found. (HITS=${HITS})"
     exit 1
