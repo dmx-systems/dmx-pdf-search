@@ -12,9 +12,11 @@ services:
       GROUP_ID: "${group_id}"
       DMX_ADMIN_PASSWORD: "${DMX_ADMIN_PASSWORD}"
       LDAP_ADMIN_PASSWORD: "${LDAP_ADMIN_PASSWORD}"
-      ## exporting LC_ALL=C is needed due to a known bug in tesseract
-      ## see https://git.dmx.systems/dmx-projects/lqdn/-/issues/2#note_26180
-      LC_ALL: 'C'
+      ## Exporting LC_ALL=C is needed due to a known bug in tesseract.
+      ## See https://git.dmx.systems/dmx-projects/lqdn/-/issues/2#note_26180
+      ## But LC_ALL: 'C' will break special characters, e.g. on file upload.
+      ## To fix this use 'C.UTF-8' instead.
+      LC_ALL: 'C.UTF-8'
     volumes:
       - ./instance/dev-ci/conf:/opt/dmx/conf
       - ./instance/dev-ci/logs:/opt/dmx/logs
