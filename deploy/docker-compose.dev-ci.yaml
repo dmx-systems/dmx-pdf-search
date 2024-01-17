@@ -15,8 +15,8 @@ services:
       ## Exporting LC_ALL=C is needed due to a known bug in tesseract.
       ## See https://git.dmx.systems/dmx-projects/lqdn/-/issues/2#note_26180
       ## But LC_ALL: 'C' will break special characters, e.g. on file upload.
-      ## To fix this use 'C.UTF-8' instead.
-      LC_ALL: 'C.UTF-8'
+      ## FIXME! To fix this use 'C.UTF-8' instead, but then it breaks tesseract again.
+      LC_ALL: 'C'
     volumes:
       - ./instance/dev-ci/conf:/opt/dmx/conf
       - ./instance/dev-ci/logs:/opt/dmx/logs
