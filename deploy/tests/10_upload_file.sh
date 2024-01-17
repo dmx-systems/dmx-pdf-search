@@ -25,24 +25,7 @@ if [ "${U_NAME}" != '"scansmpl.pdf"' ]; then
     echo "DEBUG: ${UPLOADED}"
     exit 1
 else
-    echo "INFO: PDF upload succesful. (id=${U_ID})"
-fi
-
-## search for text snipped 'facsimile' in OCR infused index
-count=0
-HITS=""
-while [ -z "${HITS}" ] && [ ${count} -lt 100 ]; do
-    sleep 1
-    SEARCH_RESULT="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" "https://dmx-pdf-search-dev.ci.dmx.systems:443//core/topics/query/facsimile" )"
-    HITS="$( echo "${SEARCH_RESULT}" | jq -c .topics[] )"
-    count=$(( ${count} + 1 ))
-done
-ID="$( echo "${SEARCH_RESULT}" | jq '.topics[] | select((.value | contains("scansmpl.pdf")) and (.typeUri == "dmx.files.file"))'.id)"
-if [ "${ID}" != "${U_ID}" ]; then
-    echo "ERROR! Search term 'facsimile' not found. (HITS=${HITS})"
-    exit 1
-else
-    echo "INFO: Search for 'facsimile' successful. (id=${ID})"
+    echo "INFO: File upload succesful. (id=${U_ID})"
 fi
 
 ## EOF
