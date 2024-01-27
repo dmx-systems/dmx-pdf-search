@@ -8,12 +8,12 @@
 
 sleep 1
 
-URL='access-control/user/workspace'
-WSID="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -H "Accept: application/json" "${HOST}/${URL}" | jq .id )"
-if [ -z "${WSID}" ]; then
-    echo "ERROR! Empty WSID. Upload aborted."
-    exit 1
-fi
+#URL='access-control/user/workspace'
+#WSID="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -H "Accept: application/json" "${HOST}/${URL}" | jq .id )"
+#if [ -z "${WSID}" ]; then
+#    echo "ERROR! Empty WSID. Upload aborted."
+#    exit 1
+#fi
 
 ## search for text snipped 'facsimile' in OCR infused index
 count=0

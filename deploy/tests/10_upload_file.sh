@@ -19,8 +19,8 @@ fi
 URL="upload/%2Fworkspace-${WSID}"
 for pdf in ${PDFS[@]}; do
     UPLOADED="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -F "data=@${pdf}" "${HOST}/${URL}" | jq . )"
-    U_NAME="$( echo "${UPLOADED}" | jq .fileName )"
-    U_ID="$( echo "${UPLOADED}" | jq .topicId )"
+    export U_NAME="$( echo "${UPLOADED}" | jq .fileName )"
+    export U_ID="$( echo "${UPLOADED}" | jq .topicId )"
     filename="$( basename ${pdf} )"
     quoted_filename='"'${filename}'"'
     ## The double quotes are important for '"scansmpl.pdf"'
@@ -29,7 +29,7 @@ for pdf in ${PDFS[@]}; do
         echo "DEBUG: ${UPLOADED}"
         exit 1
     else
-        echo "INFO: File upload for ${filename} succesful. (id=${U_ID})"
+        echo "INFO: File upload for ${U_NAME} succesful. (id=${U_ID})"
     fi
 done
 
