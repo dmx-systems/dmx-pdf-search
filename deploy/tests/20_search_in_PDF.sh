@@ -43,8 +43,12 @@ for pdfsearch in "${PDF_SEARCHTERMS[@]}"; do
         HITS="$( echo "${SEARCH_RESULT}" | jq -c .topics[] )"
         count=$(( ${count} + 1 ))
     done
-    jq_search="'"".topics[] | select((.value | contains(${U_NAME})) and (.typeUri == "'"dmx.files.file"'"))""'"".id"
-    ID="$( echo "${SEARCH_RESULT}" | jq "${jq_search}" )"
+    ## NOTE: do not try to replace the filename with ${PDF} unless you really know how to do it. 
+    if [ "${PDF}" == 'scansmpl.pdf' ]; then
+        ID="$( echo "${SEARCH_RESULT}" | jq '.topics[] | select((.value | contains("scansmpl.pdf")) and (.typeUri == "dmx.files.file"))'.id)"
+    elif [ "${PDF}" == 'true_PDF.pdf' ]; then
+        ID="$( echo "${SEARCH_RESULT}" | jq '.topics[] | select((.value | contains("true_PDF.pdf")) and (.typeUri == "dmx.files.file"))'.id)"
+    fi
     if [ "${ID}" != "${U_ID}" ]; then
         echo "ERROR! Search term '${SEARCHTERM}' not found. (HITS=${HITS}, U_ID=${U_ID})"
         exit 1
