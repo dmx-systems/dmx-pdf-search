@@ -21,6 +21,11 @@ PDF='scansmpl.pdf'
 SEARCHTERM='facsimile'
 URL="core/topics/query/${SEARCHTERM}"
 HITS=""
+if [ -f ./uploaded_files.tmp ]; then
+    UPLOADED_FILES="$( cat ./uploaded_files.tmp )"
+    echo "<${UPLOADED_FILES}>"
+fi
+
 while [ -z "${HITS}" ] && [ ${count} -lt 100 ]; do
     sleep 1
     SEARCH_RESULT="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" "${HOST}/${URL}" )"
