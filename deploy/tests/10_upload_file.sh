@@ -31,7 +31,7 @@ for pfd in ${PDFS[@]}; do
     else
         echo "INFO: File upload for ${filename} succesful. (id=${U_ID})"
     fi
-fi
+done
 
 ## EOF
 
