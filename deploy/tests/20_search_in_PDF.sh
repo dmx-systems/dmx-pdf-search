@@ -29,7 +29,7 @@ fi
 declare -a PDF_SEARCHTERMS="('scansmpl.pdf:facsimile' 'true_PDF.pdf:LibreOfiice')"
 
 
-for pdfsearch in "${PDF_SEARCHTERMS[@]}"
+for pdfsearch in "${PDF_SEARCHTERMS[@]}"; do
     PDF="$( echo "${pdfsearch}" | cut -d':' -f1 )"
     SEARCHTERM="$( echo "${pdfsearch}" | cut -d':' -f2 )"
     URL="core/topics/query/${SEARCHTERM}"
