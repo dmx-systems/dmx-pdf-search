@@ -17,7 +17,7 @@ if [ -z "${WSID}" ]; then
     exit 1
 fi
 URL="upload/%2Fworkspace-${WSID}"
-for pfd in ${PDFS[@]}; do
+for pdf in ${PDFS[@]}; do
     UPLOADED="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -F "data=@${pdf}" "${HOST}/${URL}" | jq . )"
     U_NAME="$( echo "${UPLOADED}" | jq .fileName )"
     U_ID="$( echo "${UPLOADED}" | jq .topicId )"
