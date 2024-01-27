@@ -23,8 +23,12 @@ URL="core/topics/query/${SEARCHTERM}"
 HITS=""
 if [ -f ./uploaded_files.tmp ]; then
     UPLOADED_FILES="$( cat ./uploaded_files.tmp )"
-    echo "<${UPLOADED_FILES}>"
+    #echo "<${UPLOADED_FILES}>"
+else
+    echo "WARNING! File ./uploaded_files.tmp not found."
 fi
+
+U_ID="$( echo "${UPLOADED_FILES}" | grep "${PDF}" | cut -d':' -f2 )"
 
 while [ -z "${HITS}" ] && [ ${count} -lt 100 ]; do
     sleep 1
@@ -35,7 +39,7 @@ done
 ## NOTE: do not replace the filename with ${PDF}
 ID="$( echo "${SEARCH_RESULT}" | jq '.topics[] | select((.value | contains("scansmpl.pdf")) and (.typeUri == "dmx.files.file"))'.id)"
 if [ "${ID}" != "${U_ID}" ]; then
-    echo "ERROR! Search term '${SEARCHTERM}' not found. (HITS=${HITS})"
+    echo "ERROR! Search term '${SEARCHTERM}' not found. (HITS=${HITS}, U_ID=${U_ID})"
     exit 1
 else
     echo "INFO: Search for '${SEARCHTERM}' successful. (id=${ID})"
