@@ -35,6 +35,7 @@ for pdfsearch in "${PDF_SEARCHTERMS[@]}"; do
     URL="core/topics/query/${SEARCHTERM}"
     HITS=""
     U_ID="$( echo "${UPLOADED_FILES}" | grep "${PDF}" | cut -d':' -f2 )"
+    U_NAME="$( echo "${UPLOADED_FILES}" | grep "${PDF}" | cut -d':' -f2 )"
     count=0
     while [ -z "${HITS}" ] && [ ${count} -lt 100 ]; do
         sleep 1
@@ -43,7 +44,7 @@ for pdfsearch in "${PDF_SEARCHTERMS[@]}"; do
         count=$(( ${count} + 1 ))
     done
     ## NOTE: do not replace the filename with ${PDF}
-    ID="$( echo "${SEARCH_RESULT}" | jq '.topics[] | select((.value | contains("scansmpl.pdf")) and (.typeUri == "dmx.files.file"))'.id)"
+    ID="$( echo "${SEARCH_RESULT}" | jq '.topics[] | select((.value | contains(${U_NAME})) and (.typeUri == "dmx.files.file"))'.id)"
     if [ "${ID}" != "${U_ID}" ]; then
         echo "ERROR! Search term '${SEARCHTERM}' not found. (HITS=${HITS}, U_ID=${U_ID})"
         exit 1
