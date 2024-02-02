@@ -1,5 +1,6 @@
 apk update
 apk add tesseract-ocr
+apk add icu-data-full
 apk add tesseract-ocr-data-eng
 apk add tesseract-ocr-data-deu
 apk add tesseract-ocr-data-fra

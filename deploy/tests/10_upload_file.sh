@@ -8,7 +8,7 @@
 
 sleep 1
 
-declare -a PDFS=('deploy/tests/scansmpl.pdf' 'deploy/tests/true_PDF.pdf')
+declare -a PDFS=('deploy/tests/scansmpl.pdf' 'deploy/tests/true_PDF.pdf' 'deploy/tests/tesseract.pdf')
 
 URL='access-control/user/workspace'
 WSID="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -H "Accept: application/json" "${HOST}/${URL}" | jq .id )"
