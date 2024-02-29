@@ -25,7 +25,12 @@ for pdf in ${PDFS[@]}; do
         echo "INFO: Upload ${pdf} to ${HOST}/${URL}"
         # UPLOADED="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -F "data=@${pdf}" "${HOST}/${URL}" | jq . )"
         UPLOADED="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -F "data=@${pdf}" "${HOST}/${URL}" )"
-        echo "${UPLOADED}"
+        if [ "$( echo "${UPLOADED}" | grep -i ERROR | grep 500 )" ]; then
+            echo "ERROR! Upload failed for ${pdf}."
+            echo "DEBUG: ${UPLOADED}"
+        else
+            UPLOADED="$( echo "${UPLOADED}" | jq . )"
+        fi
         U_NAME="$( echo "${UPLOADED}" | jq .fileName )"
         U_ID="$( echo "${UPLOADED}" | jq .topicId )"
         filename="$( basename ${pdf} )"
