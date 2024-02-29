@@ -22,7 +22,7 @@ fi
 URL="upload/%2Fworkspace-${WSID}"
 for pdf in ${PDFS[@]}; do
     if [ -f ${pdf} ]; then
-        "INFO: Upload ${pdf} to ${HOST}/${URL}"
+        echo "INFO: Upload ${pdf} to ${HOST}/${URL}"
         UPLOADED="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -F "data=@${pdf}" "${HOST}/${URL}" | jq . )"
         U_NAME="$( echo "${UPLOADED}" | jq .fileName )"
         U_ID="$( echo "${UPLOADED}" | jq .topicId )"
