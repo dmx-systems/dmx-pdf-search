@@ -13,7 +13,7 @@
     <parent>
         <groupId>systems.dmx</groupId>
         <artifactId>dmx-plugin</artifactId>
-        <version>5.3.4-SNAPSHOT</version>
+        <version>5.3.5-SNAPSHOT</version>
     </parent>
 
     <profiles>
@@ -36,7 +36,7 @@
         <dependency>
             <groupId>systems.dmx</groupId>
             <artifactId>dmx-files</artifactId>
-            <version>5.3.4-SNAPSHOT</version>
+            <version>5.3.5-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>systems.dmx</groupId>
