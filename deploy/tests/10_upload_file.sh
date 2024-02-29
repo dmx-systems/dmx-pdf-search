@@ -17,16 +17,22 @@ if [ -z "${WSID}" ]; then
     echo "ERROR! Empty WSID. Upload aborted."
     exit 1
 else
-    echo "INFO: Workspace ID=${WSID}"
+    echo "INFO: Private Workspace ID=${WSID}"
 fi
 URL="upload/%2Fworkspace-${WSID}"
 for pdf in ${PDFS[@]}; do
-    UPLOADED="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -F "data=@${pdf}" "${HOST}/${URL}" | jq . )"
-    U_NAME="$( echo "${UPLOADED}" | jq .fileName )"
-    U_ID="$( echo "${UPLOADED}" | jq .topicId )"
-    filename="$( basename ${pdf} )"
-    quoted_filename='"'${filename}'"'
-    ## The double quotes are important for '"scansmpl.pdf"'
+    if [ -f ${pdf} ]; then
+        "INFO: Upload ${pdf} to ${HOST}/${URL}"
+        UPLOADED="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -F "data=@${pdf}" "${HOST}/${URL}" | jq . )"
+        U_NAME="$( echo "${UPLOADED}" | jq .fileName )"
+        U_ID="$( echo "${UPLOADED}" | jq .topicId )"
+        filename="$( basename ${pdf} )"
+        quoted_filename='"'${filename}'"'
+        ## The double quotes are important for '"scansmpl.pdf"'
+    else
+        echo "ERROR! File ${pdf} not found."
+        exit 1
+    fi
     if [ "${U_NAME}" != "${quoted_filename}" ]; then
         echo "ERROR! File upload for ${filename} failed."
         echo "DEBUG: ${UPLOADED}"
