@@ -17,13 +17,14 @@ if [ -z "${WSID}" ]; then
     echo "ERROR! Empty WSID. Upload aborted."
     exit 1
 else
-    echo "INFO: Private Workspace ID=${WSID}"
+    echo "INFO: Private Workspace ID=${WSID}. (SESSIONID=${SESSIONID})"
 fi
 URL="upload/%2Fworkspace-${WSID}"
 for pdf in ${PDFS[@]}; do
     if [ -f ${pdf} ]; then
         echo "INFO: Upload ${pdf} to ${HOST}/${URL}"
-        UPLOADED="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -F "data=@${pdf}" "${HOST}/${URL}" | jq . )"
+        # UPLOADED="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -F "data=@${pdf}" "${HOST}/${URL}" | jq . )"
+        UPLOADED="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -F "data=@${pdf}" "${HOST}/${URL}" )"
         U_NAME="$( echo "${UPLOADED}" | jq .fileName )"
         U_ID="$( echo "${UPLOADED}" | jq .topicId )"
         filename="$( basename ${pdf} )"
