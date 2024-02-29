@@ -10,11 +10,14 @@ sleep 1
 
 declare -a PDFS=('deploy/tests/scansmpl.pdf' 'deploy/tests/true_PDF.pdf' 'deploy/tests/tesseract.pdf')
 
+## get WSID of user's private workspace
 URL='access-control/user/workspace'
 WSID="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -H "Accept: application/json" "${HOST}/${URL}" | jq .id )"
 if [ -z "${WSID}" ]; then
     echo "ERROR! Empty WSID. Upload aborted."
     exit 1
+else
+    echo "INFO: Workspace ID=${WSID}"
 fi
 URL="upload/%2Fworkspace-${WSID}"
 for pdf in ${PDFS[@]}; do
