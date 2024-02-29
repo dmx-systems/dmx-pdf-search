@@ -27,7 +27,8 @@ for pdf in ${PDFS[@]}; do
         UPLOADED="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -F "data=@${pdf}" "${HOST}/${URL}" )"
         if [ "$( echo "${UPLOADED}" | grep -i ERROR | grep 500 )" ]; then
             echo "ERROR! Upload failed for ${pdf}."
-            echo "DEBUG: ${UPLOADED}"
+            echo -e "DEBUG:\n${UPLOADED}"
+            exit 1
         else
             UPLOADED="$( echo "${UPLOADED}" | jq . )"
         fi
@@ -42,7 +43,7 @@ for pdf in ${PDFS[@]}; do
     fi
     if [ "${U_NAME}" != "${quoted_filename}" ]; then
         echo "ERROR! File upload for ${filename} failed."
-        echo "DEBUG: ${UPLOADED}"
+        echo -e "DEBUG:\n${UPLOADED}"
         exit 1
     else
         ## persist resluts
