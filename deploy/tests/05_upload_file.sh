@@ -6,7 +6,7 @@
 ##
 ## jpn 20231223
 
-sleep 1
+sleep 2
 
 URL='access-control/user/workspace'
 WSID="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -H "Accept: application/json" "${HOST}/${URL}" | jq .id )"
