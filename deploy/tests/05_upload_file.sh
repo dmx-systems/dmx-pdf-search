@@ -16,7 +16,7 @@ if [ -z "${WSID}" ]; then
 fi
 PDF='deploy/tests/scansmpl.pdf'
 URL="upload/%2Fworkspace-${WSID}"
-UPLOADED="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -F "data=@${PDF}" "${HOST}/${URL}" | jq . )"
+UPLOADED="$( curl -H "Cookie: JSESSIONID=${SESSIONID}" -F "data=@${PDF}" "${HOST}/${URL}")"
 U_NAME="$( echo "${UPLOADED}" | jq .fileName )"
 U_ID="$( echo "${UPLOADED}" | jq .topicId )"
 ## The double quotes are important for '"scansmpl.pdf"'
