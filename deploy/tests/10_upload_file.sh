@@ -25,6 +25,7 @@ for pdf in ${PDFS[@]}; do
         echo "INFO: Upload ${pdf} to ${HOST}/${URL}"
         # UPLOADED="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -F "data=@${pdf}" "${HOST}/${URL}" | jq . )"
         UPLOADED="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -F "data=@${pdf}" "${HOST}/${URL}" )"
+        echo "${UPLOADED}"
         U_NAME="$( echo "${UPLOADED}" | jq .fileName )"
         U_ID="$( echo "${UPLOADED}" | jq .topicId )"
         filename="$( basename ${pdf} )"
