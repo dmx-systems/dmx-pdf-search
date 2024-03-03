@@ -6,9 +6,15 @@
 ##
 ## jpn 20231223
 
-sleep 3
+sleep 1
 
-declare -a PDFS=('deploy/tests/scansmpl.pdf' 'deploy/tests/true_PDF.pdf' 'deploy/tests/tesseract.pdf')
+if [ -z "$1" ]; then
+    FILE_LIST="$( find deploy/tests/*.pdf -type f )"
+else
+    FILE_LIST="$1"
+fi
+
+declare -a FILES=("${FILE_LIST}")
 
 ## get WSID of user's private workspace
 URL='access-control/user/workspace'
@@ -17,17 +23,15 @@ if [ -z "${WSID}" ]; then
     echo "ERROR! Empty WSID. Upload aborted."
     exit 1
 else
-    echo "INFO: Private Workspace ID=${WSID}. (SESSIONID=${SESSIONID})"
+    echo "INFO: Uploading files to administrator's Private Workspace ID=${WSID}. (SESSIONID=${SESSIONID})"
 fi
 URL="upload/%2Fworkspace-${WSID}"
-for pdf in ${PDFS[@]}; do
+for this_file in ${FILES[@]}; do
     if [ -f ${pdf} ]; then
-        echo "INFO: Upload ${pdf} to ${HOST}/${URL}"
-        # UPLOADED="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -F "data=@${pdf}" "${HOST}/${URL}" | jq . )"
-        UPLOADED="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -F "data=@${pdf}" "${HOST}/${URL}" 2>&1 )"
-        echo "${UPLOADED}"
+        echo "INFO: Upload ${this_file} to ${HOST}/${URL}"
+        UPLOADED="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -F "data=@${this_file}" "${HOST}/${URL}" 2>&1 )"
         if [ "$( echo "${UPLOADED}" | grep -i ERROR | grep 500 )" ]; then
-            echo "ERROR! Upload failed for ${pdf}."
+            echo "ERROR! Upload failed for ${this_file}."
             echo -e "DEBUG:\n${UPLOADED}"
             exit 1
         else
@@ -35,11 +39,11 @@ for pdf in ${PDFS[@]}; do
         fi
         U_NAME="$( echo "${UPLOADED}" | jq .fileName )"
         U_ID="$( echo "${UPLOADED}" | jq .topicId )"
-        filename="$( basename ${pdf} )"
+        filename="$( basename ${this_file} )"
         quoted_filename='"'${filename}'"'
         ## The double quotes are important for '"scansmpl.pdf"'
     else
-        echo "ERROR! File ${pdf} not found."
+        echo "ERROR! File ${this_file} not found."
         exit 1
     fi
     if [ "${U_NAME}" != "${quoted_filename}" ]; then
@@ -47,7 +51,7 @@ for pdf in ${PDFS[@]}; do
         echo -e "DEBUG:\n${UPLOADED}"
         exit 1
     else
-        ## persist resluts
+        ## persist results
         echo "${U_NAME}:${U_ID}" >> uploaded_files.tmp
         echo "INFO: File upload for ${U_NAME} succesful. (id=${U_ID})"
     fi
