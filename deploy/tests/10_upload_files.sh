@@ -6,7 +6,7 @@
 ##
 ## jpn 20231223
 
-sleep 1
+sleep 3
 
 declare -a PDFS=('deploy/tests/scansmpl.pdf' 'deploy/tests/true_PDF.pdf' 'deploy/tests/tesseract.pdf')
 
