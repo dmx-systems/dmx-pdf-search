@@ -12,7 +12,7 @@ declare -a PDFS=('deploy/tests/scansmpl.pdf' 'deploy/tests/true_PDF.pdf' 'deploy
 
 ## get WSID of user's private workspace
 URL='access-control/user/workspace'
-WSID="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -H "Accept: application/json" "${HOST}/${URL}" | jq .id )"
+WSID="$( curl -sS -H "Cookie: JSESSIONID=${SESSIONID}" -H "Accept: application/json" "${HOST}/${URL}" | jq .id | sed 's/[^0-9]//g' )"
 if [ -z "${WSID}" ]; then
     echo "ERROR! Empty WSID. Upload aborted."
     exit 1
