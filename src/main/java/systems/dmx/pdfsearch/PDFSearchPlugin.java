@@ -38,9 +38,13 @@ public class PDFSearchPlugin extends PluginActivator implements PostCreateTopic 
     public void postCreateTopic(Topic topic) {
         if (topic.getTypeUri().equals(FILE)) {
             ChildTopics ct = topic.getChildTopics();
-            String mediaType = ct.getTopic(MEDIA_TYPE).getSimpleValue().toString();
-            if (mediaType.equals("application/pdf")) {
-                String path = ct.getTopic(PATH).getSimpleValue().toString();
+            String path = ct.getTopic(PATH).getSimpleValue().toString();
+            Topic mediaType = ct.getTopicOrNull(MEDIA_TYPE);
+            if (mediaType == null) {
+                logger.warning("No media type set for File topic " + topic.getId() + ", path=\"" + path + "\"");
+                return;
+            }
+            if (mediaType.getSimpleValue().toString().equals("application/pdf")) {
                 logger.info("### Indexing PDF file \"" + path + "\"");
                 indexPDF(path, topic.getId());
             }
